@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meta Prog Bot - Social Media Tasks</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .header {
+            padding: 30px;
+            background-color: #222;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #fff;
+        }
+        .logo {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background: url('material/images/logo.png') no-repeat center;
+            background-size: contain;
+            margin: 0 auto;
+        }
+        .title {
+            font-size: 12px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .task-container {
+            margin: 20px auto;
+            padding: 20px;
+            width: 90%;
+            max-width: 600px;
+            background-color: #111;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+        }
+        .task {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #333;
+        }
+        .task:last-child {
+            border-bottom: none;
+        }
+        .task img {
+            width: 40px;
+            height: 40px;
+        }
+        .task-name {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 12px;
+        }
+        .task button {
+            background-color: #ff7c01;
+            border: none;
+            border-radius: 2px;
+            padding: 8px 15px;
+            color: #fff;
+            font-size: 10px;
+            cursor: pointer;
+            width: 150px;
+            height: 40px;
+        }
+        .task button:disabled {
+            background-color: #555;
+            cursor: not-allowed;
+        }
+        .task button:hover:enabled {
+            background-color: #da6b04;
+        }
+        .footer {
+            background-color: #111;
+            padding: 10px 0;
+            font-size: 8px;
+            color: #ccc;
+            text-align: center;
+            width: 100%;
+            margin-top: auto;
+        }
+        .footer-menu {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+        }
+        .footer-menu-item {
+            font-size: 12px;
+            color: #ccc;
+            text-decoration: none;
+        }
+        .footer-menu-item:hover {
+            color: #fff;
+        }
+        .footer-menu-item img {
+            width: 24px;
+            height: 24px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="logo"></div>
+        <div class="title">Meta Prog - Social Media Tasks</div>
+    </div>
+
+    <!-- Task Container -->
+    <div class="task-container">
+        <div class="task">
+            <div class="task-name">
+                <img src="material/images/you.gif" alt="YouTube">
+                Subscribe 
+            </div>
+            <button onclick="completeTask('youtube', 'https://www.youtube.com/@mrpusa8769')" id="task-youtube">100Coins</button>
+        </div>
+        <div class="task">
+            <div class="task-name">
+                <img src="material/images/tele.png" alt="Telegram">
+                Join Telegram        
+            </div>
+            <button onclick="completeTask('telegram', 'https://t.me/signals_spot_trading_crypto')" id="task-telegram">100Coins</button>
+        </div>
+        <div class="task">
+            <div class="task-name">
+                <img src="material/images/te.png" alt="X (Twitter)">
+                Follow on X                  
+            </div>
+            <button onclick="completeTask('x', 'https://x.com/ODannawada80577?t=IbetN_XIV1OntW6HTlldEA&s=09')" id="task-x">100Coins</button>
+        </div>
+        <div class="task">
+            <div class="task-name">
+                <img src="material/images/you.gif" alt="Video">
+                Watch Video                  
+            </div>
+            <button onclick="completeTask('video', 'https://youtu.be/q1jwLehE3Bs?si=ZNapAeloMsjykcBs')" id="task-video">100Coins</button>
+        </div>
+    </div>
+    
+
+    <!-- Footer Section -->
+    <div class="footer">
+        <div class="footer-menu">
+            <a href="index.html" class="footer-menu-item">
+                <img src="material/images/home.png" alt="Home">
+                <span>Home</span>
+            </a>
+            <a href="task.html" class="footer-menu-item">
+                <img src="material/images/task .png" alt="Task">
+                <span>Task</span>
+            </a>
+            <a href="invite-friends.html" class="footer-menu-item">
+                <img src="material/images/invite.png" alt="Friends">
+                <span>Friends</span>
+            </a>
+            <a href="clickads.html" class="footer-menu-item">
+                <img src="material/images/add.png" alt="Ad">
+                <span>Ad</span>
+            </a>
+        </div>
+        <p>© 2025 Meta Prog. All rights reserved.</p>
+    </div>
+
+    <!-- Script -->
+    <script>
+        let totalCoins = parseInt(localStorage.getItem('totalCoins')) || 0;
+        let pendingTask = null;
+
+        function completeTask(taskId, link) {
+            const storedLink = localStorage.getItem(taskId + '_link');
+            
+            // Check if the link has changed and reset the task if so
+            if (storedLink !== link) {
+                localStorage.setItem(taskId + '_link', link);
+                localStorage.removeItem(taskId); // Reset task completion
+            }
+
+            if (!localStorage.getItem(taskId)) {
+                pendingTask = taskId;
+                window.open(link, '_blank');
+            } else {
+                alert('Task already completed.');
+            }
+        }
+
+        window.onfocus = function () {
+            if (pendingTask) {
+                if (!localStorage.getItem(pendingTask)) {
+                    totalCoins += 100;
+                    localStorage.setItem(pendingTask, 'completed');
+                    localStorage.setItem('totalCoins', totalCoins);
+                    document.getElementById('task-' + pendingTask).disabled = true;
+                    alert(`Task completed! You earned 100 coins. Total coins: ${totalCoins}`);
+                }
+                pendingTask = null;
+            }
+        };
+
+        window.onload = function () {
+            document.querySelectorAll('button[id^="task"]').forEach(button => {
+                const taskId = button.id.split('-')[1];
+                if (localStorage.getItem(taskId)) {
+                    button.disabled = true;
+                }
+            });
+        };
+    </script>
+</body>
+</html>

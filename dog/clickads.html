@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meta Prog Bot - Ad Page</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .header {
+            padding: 30px;
+            background-color: #222;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #fff;
+        }
+        .logo {
+            display: inline-block;
+            width: 120px;
+            height: 120px;
+            background: url('material/images/logo.png') no-repeat center;
+            background-size: contain;
+            margin: 0 auto;
+        }
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .ad-container {
+            margin: 20px auto;
+            padding: 20px;
+            width: 90%;
+            max-width: 600px;
+            background-color: #111;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+        }
+        .ad {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #333;
+        }
+        .ad:last-child {
+            border-bottom: none;
+        }
+        .ad img {
+            width: 40px;
+            height: 40px;
+        }
+        .ad-name {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 18px;
+        }
+        .ad button {
+            background-color: #ff7c01;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 15px;
+            color: #fff;
+            font-size: 14px;
+            cursor: pointer;
+            width: 150px;
+            height: 40px;
+        }
+        .ad button:disabled {
+            background-color: #555;
+            cursor: not-allowed;
+        }
+        .ad button:hover:enabled {
+            background-color: #da6b04;
+        }
+        .footer {
+            background-color: #111;
+            padding: 10px 0;
+            font-size: 8px;
+            color: #ccc;
+            text-align: center;
+            width: 100%;
+            margin-top: auto;
+        }
+        .footer-menu {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        .footer-menu-item {
+            font-size: 12px;
+            color: #ccc;
+            text-decoration: none;
+        }
+        .footer-menu-item:hover {
+            color: #fff;
+        }
+        .footer-menu-item img {
+            width: 24px;
+            height: 24px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="logo"></div>
+        <div class="title">Meta Prog - Ad Page</div>
+    </div>
+
+    <!-- Ad Container -->
+    <div class="ad-container">
+        <div class="ad">
+            <div class="ad-name">
+                <img src="material/images/ad.png" alt="Ad 1">
+                Watch Ad 1
+            </div>
+            <button onclick="completeAd('ad1', 'https://t.me/signals_spot_trading_crypto')" id="ad-ad1">Earn 100 Coins</button>
+        </div>
+        <div class="ad">
+            <div class="ad-name">
+                <img src="material/images/ad.png" alt="Ad 2">
+                Watch Ad 2
+            </div>
+            <button onclick="completeAd('ad2', 'https://t.me/signals_spot_trading_crypto')" id="ad-ad2">Earn 100 Coins</button>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <div class="footer">
+        <div class="footer-menu">
+            <a href="index.html" class="footer-menu-item">
+                <img src="material/images/home.png" alt="Home">
+                <span>Home</span>
+            </a>
+            <a href="task.html" class="footer-menu-item">
+                <img src="material/images/task .png" alt="Task">
+                <span>Task</span>
+            </a>
+            <a href="invite-friends.html" class="footer-menu-item">
+                <img src="material/images/invite.png" alt="Friends">
+                <span>Friends</span>
+            </a>
+            <a href="clickads.html" class="footer-menu-item">
+                <img src="material/images/add.png" alt="Ad">
+                <span>Ad</span>
+            </a>
+        </div>
+        <p>© 2025 Meta Prog. All rights reserved.</p>
+    </div>
+
+    <!-- Script -->
+    <script>
+        let totalCoins = parseInt(localStorage.getItem('totalCoins')) || 0;
+        let pendingAd = null;
+
+        function completeAd(adId, link) {
+            const storedLink = localStorage.getItem(adId + '_link');
+            
+            // Check if the link has changed and reset the ad if so
+            if (storedLink !== link) {
+                localStorage.setItem(adId + '_link', link);
+                localStorage.removeItem(adId); // Reset ad completion
+            }
+
+            if (!localStorage.getItem(adId)) {
+                pendingAd = adId;
+                window.open(link, '_blank');
+            } else {
+                alert('Ad already completed.');
+            }
+        }
+
+        window.onfocus = function () {
+            if (pendingAd) {
+                if (!localStorage.getItem(pendingAd)) {
+                    totalCoins += 100;
+                    localStorage.setItem(pendingAd, 'completed');
+                    localStorage.setItem('totalCoins', totalCoins);
+                    document.getElementById('ad-' + pendingAd).disabled = true;
+                    alert(`Ad completed! You earned 100 coins. Total coins: ${totalCoins}`);
+                }
+                pendingAd = null;
+            }
+        };
+
+        window.onload = function () {
+            document.querySelectorAll('button[id^="ad"]').forEach(button => {
+                const adId = button.id.split('-')[1];
+                if (localStorage.getItem(adId)) {
+                    button.disabled = true;
+                }
+            });
+        };
+    </script>
+</body>
+</html>

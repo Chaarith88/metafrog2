@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meta Prog Bot Home</title>
+    <script src="https://cdn.jsdelivr.net/npm/web3/dist/web3.min.js"></script>
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .header {
+            padding: 30px;
+            background-color: #222;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #fff;
+        }
+        .logo {
+            display: inline-block;
+            width: 120px;
+            height: 120px;
+            background: url('material/images/logo.png') no-repeat center;
+            background-size: contain;
+            margin: 0 auto;
+        }
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .connect-wallet {
+            margin-top: 10px;
+            background-color: #ff7c01;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .connect-wallet:hover {
+            background-color: #da6b04;
+        }
+        .connect-wallet:disabled {
+            background-color: #555;
+            cursor: not-allowed;
+        }
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            margin: 70px 0;
+        }
+        .button {
+            background-color: #ff7c01;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .button:hover {
+            background-color: #da6b04;
+        }
+        .menu {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            background-color: #111;
+            padding: 15px 0;
+        }
+        .menu-item {
+            font-size: 16px;
+            color: #ccc;
+            text-decoration: none;
+        }
+        .menu-item:hover {
+            color: #fff;
+        }
+        .coin-count-menu {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
+            font-weight: bold;
+            color: #ff7c01;
+        }
+        .footer {
+            background-color: #111;
+            padding: 10px 0;
+            font-size: 8px;
+            color: #ccc;
+            text-align: center;
+            width: 100%;
+            margin-top: auto;
+        }
+        .footer-menu {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        .footer-menu-item {
+            font-size: 12px;
+            color: #ccc;
+            text-decoration: none;
+        }
+        .footer-menu-item:hover {
+            color: #fff;
+        }
+        .footer-menu-item img {
+            width: 24px;
+            height: 24px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="logo"></div>
+        <div class="title">Meta Prog</div>
+        <button class="connect-wallet" id="connectWalletButton">Connect Wallet</button>
+    </div>
+
+    <!-- Menu Section -->
+    <div class="menu">
+        <div class="coin-count-menu" id="menuCoinCount">Coins: 0</div>
+    </div>
+
+    <div class="button-container">
+        <button class="button" onclick="window.open('https://youtube.com/@mrpusa8769?si=cmeMSLAUeBREkda7', '_blank'); earnCoins(10);">Subscribe</button>
+        <button class="button" onclick="window.open('https://t.me/+9Pd_ajrQ5zY3MDI9', '_blank'); earnCoins(20);">Join chat</button>
+    </div>
+</div>
+
+    <!-- Footer Section with Buttons -->
+    <div class="footer">
+        <div class="footer-menu">
+            <a href="index.html" class="footer-menu-item">
+                <img src="material/images/home.png" alt="Home">
+                <span>Home</span>
+            </a>
+            <a href="task.html" class="footer-menu-item">
+                <img src="material/images/task .png" alt="Task">
+                <span>Task</span>
+            </a>
+            <a href="invite-friends.html" class="footer-menu-item">
+                <img src="material/images/invite.png" alt="Friends">
+                <span>Friends</span>
+            </a>
+            <a href="invite-friends.html" class="footer-menu-item">
+                <img src="material/images/add.png" alt="Ad">
+                <span>Ad</span>
+            </a>
+        </div>
+        <p>© 2025 Meta Prog. All rights reserved.</p>
+    </div>
+
+    <!-- Script to Handle Wallet Connection and Coin Count -->
+    <script>
+        // Initialize coins from localStorage
+        window.onload = function () {
+            const storedCoins = localStorage.getItem('totalCoins') || 0;
+            document.getElementById('menuCoinCount').innerText = `Coins: ${storedCoins}`;
+        };
+
+        // Function to earn coins and update localStorage
+        function earnCoins(amount) {
+            let totalCoins = parseInt(localStorage.getItem('totalCoins') || 0);
+            totalCoins += amount;
+            localStorage.setItem('totalCoins', totalCoins);
+            document.getElementById('menuCoinCount').innerText = `Coins: ${totalCoins}`;
+            alert(`You earned ${amount} coins! Total coins: ${totalCoins}`);
+        }
+
+        // Initialize Web3 and connect wallet
+        let web3;
+        const connectWalletButton = document.getElementById('connectWalletButton');
+
+        async function connectWallet() {
+            if (window.ethereum) {
+                try {
+                    web3 = new Web3(window.ethereum);
+                    await window.ethereum.request({ method: 'eth_requestAccounts' });
+
+                    const networkId = await web3.eth.net.getId();
+                    if (networkId === 1) { // 1 is Ethereum mainnet
+                        const accounts = await web3.eth.getAccounts();
+                        alert(`Wallet connected: ${accounts[0]}`);
+                        connectWalletButton.innerText = 'Wallet Connected';
+                        connectWalletButton.disabled = true;
+                    } else {
+                        alert('Please switch to the Ethereum Mainnet.');
+                    }
+                } catch (error) {
+                    console.error('User rejected the request:', error);
+                    alert('Connection failed. Please try again.');
+                }
+            } else {
+                alert('No wallet found. Please install MetaMask or Trust Wallet.');
+            }
+        }
+
+        connectWalletButton.addEventListener('click', connectWallet);
+    </script>
+</body>
+</html>

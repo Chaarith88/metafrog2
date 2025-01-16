@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Page</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 70vh;
+        }
+        .header {
+            padding: 15px;
+            background-color: #222;
+            color: #fff;
+        }
+        .content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px;
+            gap: 10px;
+        }
+        .task-section {
+            background-color: #111;
+            padding: 20px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 300px;
+            box-sizing: border-box;
+        }
+        .task-section h2 {
+            margin-bottom: 16px;
+        }
+        .task-section img {
+            width: 12%;
+            height: auto;
+            margin-bottom: 10px;
+        }
+        .task-section button {
+            background-color: #ff7c01;
+            border: none;
+            padding:15px 15px;
+            color: #fff;
+            font-size:10px;
+            cursor: pointer;
+            border-radius: 8px;
+        }
+        .task-section button:hover {
+            background-color: #da6b04;
+        }
+        .footer {
+            background-color: #111;
+            padding: 10px 0;
+            font-size: 08px;
+            color: #ccc;
+            text-align: center;
+            margin-top: auto;
+        }
+        .footer-menu {
+            display: flex;
+            justify-content: center;
+            gap: 18px;
+            margin-bottom: 10px;
+        }
+        .footer-menu-item {
+            font-size: 12px;
+            color: #ccc;
+            text-decoration: none;
+        }
+        .footer-menu-item:hover {
+            color: #fff;
+        }
+        .footer-menu-item img {
+            width: 24px;
+            height: 24px;
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: 15px;
+                font-size: 14px;
+            }
+            .task-section {
+                padding: 25px;
+            }
+            .task-section button {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <h1>Task Page</h1>
+    </div>
+
+    <!-- Content Section -->
+    <div class="content">
+        <!-- Join Airdrop Section -->
+        <div class="task-section">
+            <h2>Join Airdrop</h2>
+            <img src="material/images/airdrop.png" alt="Airdrop Image">
+            <button onclick="redirectTo('air drop.html')">Airdrop task</button>
+        </div>
+
+        <!-- Social Media Task Section -->
+        <div class="task-section">
+            <h2>Social Media </h2>
+            <img src="material/images/social media.png" alt="Social Media Image">
+            <button onclick="redirectTo('social media task.html')">SocialMedia task</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="footer-menu">
+            <a href="index.html" class="footer-menu-item">
+                <img src="material/images/home.png" alt="Home">
+                <span>Home</span>
+            </a>
+            <a href="task.html" class="footer-menu-item">
+                <img src="material/images/task .png" alt="Task">
+                <span>Task</span>
+            </a>
+            <a href="invite-friends.html" class="footer-menu-item">
+                <img src="material/images/invite.png" alt="Friends">
+                <span>Friends</span>
+            </a>
+            <a href="clickads.html" class="footer-menu-item">
+                <img src="material/images/add.png" alt="Ad">
+                <span>Ad</span>
+            </a>
+        
+        </div>
+        <p>© 2025 Meta Prog. All rights reserved.</p>
+    </div>
+
+    <script>
+        // Function to redirect the user to the specified URL
+        function redirectTo(url) {
+            window.location.href = url;
+        }
+    </script>
+</body>
+</html>
+
+        
+            
+        
+    </script>
+</body>
+</html>

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meta Prog Bot - Invite Friends</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .header {
+            padding: 30px;
+            background-color: #222;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #fff;
+        }
+        .logo {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            background: url('material/images/logo.png') no-repeat center;
+            background-size: contain;
+            margin: 0 auto;
+        }
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .menu {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            background-color: #111;
+            padding: 15px 0;
+        }
+        .coin-count-menu {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
+            font-weight: bold;
+            color: #ff7c01;
+        }
+        .invite-section {
+            margin: 30px auto;
+            text-align: center;
+            width: 90%;
+            max-width: 600px;
+        }
+        .invite-section input {
+            width: 80%;
+            padding: 10px;
+            margin-bottom: 10px;
+            font-size: 12px;
+            border: 1px solid #444;
+            border-radius: 8px;
+        }
+        .invite-section button {
+            background-color: #ff7c01;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            color: #fff;
+            font-size: 10px;
+            cursor: pointer;
+        }
+        .invite-section button:hover {
+            background-color: #da6b04;
+        }
+        .invited-friends {
+            margin: 20px 0;
+            font-size: 14px;
+        }
+        .footer {
+            background-color: #111;
+            padding: 10px 0;
+            font-size: 8px;
+            color: #ccc;
+            text-align: center;
+            width: 100%;
+            margin-top: auto;
+        }
+        .footer-menu {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        .footer-menu-item {
+            font-size: 12px;
+            color: #ccc;
+            text-decoration: none;
+        }
+        .footer-menu-item:hover {
+            color: #fff;
+        }
+        .footer-menu-item img {
+            width: 24px;
+            height: 24px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="logo"></div>
+        <div class="title">Meta Prog - Invite Friends</div>
+    </div>
+
+    <!-- Menu Section -->
+    <div class="menu">
+        <div class="coin-count-menu" id="menuCoinCount">Coins: 0</div>
+    </div>
+
+    <!-- Invite Friends Section -->
+    <div class="invite-section">
+        <h2>Invite Your Friends</h2>
+        <p>Share this link with your friends and earn coins when they register!</p>
+        <input type="text" value="https://metaprogbot.com/invite?ref=12345" readonly>
+        <button onclick="copyInviteLink()">Copy Invite Link</button>
+        <div class="invited-friends" id="invitedFriendsCount">
+            Total Invited Friends: 0
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <div class="footer">
+        <div class="footer-menu">
+            <a href="index.html" class="footer-menu-item">
+                <img src="material/images/home.png" alt="Home">
+                <span>Home</span>
+            </a>
+            <a href="task.html" class="footer-menu-item">
+                <img src="material/images/task .png" alt="Task">
+                <span>Task</span>
+            </a>
+            <a href="invite-friends.html" class="footer-menu-item">
+                <img src="material/images/invite.png" alt="Friends">
+                <span>Friends</span>
+            </a>
+            <a href="clickads.html" class="footer-menu-item">
+                <img src="material/images/add.png" alt="Ad">
+                <span>Ad</span>
+            </a>
+        </div>
+        <p>© 2025 Meta Prog. All rights reserved.</p>
+    </div>
+
+    <!-- Script for Invite Functionality -->
+    <script>
+        let totalCoins = parseInt(localStorage.getItem('totalCoins')) || 0;
+        let totalInvites = parseInt(localStorage.getItem('totalInvites')) || 0;
+
+        // Initialize the page with saved data
+        window.onload = function () {
+            document.getElementById('menuCoinCount').innerText = `Coins: ${totalCoins}`;
+            document.getElementById('invitedFriendsCount').innerText = `Total Invited Friends: ${totalInvites}`;
+        };
+
+        // Function to simulate new user registration via invite
+        function registerNewUser() {
+            totalInvites++;
+            localStorage.setItem('totalInvites', totalInvites);
+            document.getElementById('invitedFriendsCount').innerText = `Total Invited Friends: ${totalInvites}`;
+            calculateReward();
+        }
+
+        // Calculate rewards based on invite milestones
+        function calculateReward() {
+            let earnedCoins = 0;
+
+            if (totalInvites === 5) {
+                earnedCoins = 5000;
+            } else if (totalInvites === 10) {
+                earnedCoins = 10000;
+            }
+
+            if (earnedCoins > 0) {
+                totalCoins += earnedCoins;
+                localStorage.setItem('totalCoins', totalCoins);
+                document.getElementById('menuCoinCount').innerText = `Coins: ${totalCoins}`;
+                alert(`Congratulations! You've earned ${earnedCoins} coins for inviting ${totalInvites} friends.`);
+            }
+        }
+
+        // Function to copy invite link
+        function copyInviteLink() {
+            const input = document.querySelector('.invite-section input');
+            input.select();
+            input.setSelectionRange(0, 99999); // For mobile devices
+            navigator.clipboard.writeText(input.value);
+            alert('Invite link copied to clipboard!');
+        }
+    </script>
+</body>
+</html>
